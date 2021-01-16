@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class PDFParser implements IPDFParser {
@@ -15,9 +16,26 @@ public class PDFParser implements IPDFParser {
         return reader.lines().collect(Collectors.joining("\n"));
     }
 
+    private Set<Page> generatePages(String stdout) {
+        Set<Page> out = new HashSet<>();
+
+        for (String line : stdout.split("\n")) {
+            String[] lineArray = line.split(",");
+
+            out.add(new Page(
+                    lineArray[2].replaceAll("^\"|\"$", ""),
+                    Integer.parseInt(lineArray[1].replaceAll("^\"|\"$", "")),
+                    Integer.parseInt(lineArray[0].replaceAll("^\"|\"$", ""))
+            ));
+        }
+
+        return out;
+    }
+
     @Override
-    public Set<Page> run(String path) {
+    public Set<Page> run(String path, Consumer<String> setLoadingText) {
         try {
+            setLoadingText.accept("Preparing to import");
 
             ProcessBuilder pb = new ProcessBuilder("python3", "../backend/pdf_parser.py", "parse", path);
 
@@ -29,23 +47,22 @@ public class PDFParser implements IPDFParser {
             BufferedReader stdoutReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             BufferedReader stderrReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
-            System.out.println("Beep");
+            setLoadingText.accept("Processing");
 
             process.waitFor();
-            System.out.println("Me done");
 
             String stdout = getAllBufferLines(stdoutReader);
             String stderr = getAllBufferLines(stderrReader);
 
-            System.out.println("stdout: " + stdout);
-            System.out.println("stderr: " + stderr);
+            //System.out.println("stdout: " + stdout);
+            //System.out.println("stderr: " + stderr);
 
             if (stderr.length() > 0) {
                 // Pass errors from python
                 throw new RuntimeException("Python Error:\n" + stderr);
             }
 
-            return new HashSet<Page>();
+            return generatePages(stdout);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e.getMessage());
         }

@@ -9,6 +9,7 @@ import gui.interfaces.IFrame;
 import gui.interfaces.IPanelFactory;
 import pages.Page;
 
+import javax.swing.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +19,10 @@ class MainMenuPresenter {
     private IDialogFactory dialogFactory;
     private IPanelFactory panelFactory;
 
-    MainMenuPresenter(IFrame mainFrame) {
+    private MainMenuView mainMenuView;
+
+    MainMenuPresenter(IFrame mainFrame, MainMenuView mainMenuView) {
+        this.mainMenuView = mainMenuView;
         dialogFactory = mainFrame.getDialogFactory();
         panelFactory = mainFrame.getPanelFactory();
     }
@@ -39,20 +43,33 @@ class MainMenuPresenter {
         String filePath = (String) uploadDialog.run();
 
         if (filePath != null && filePath.length() > 0) {
-            IPDFParser pdfParser = new PDFParser();
-            Set<Page> pages;
+            JProgressBar progressBar = mainMenuView.getProgressBar();
+            JLabel loadingText = mainMenuView.getLoadingText();
 
-            try {
-                pages = pdfParser.run(filePath);
-            } catch (Exception e) {
-                dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<>() {
-                    {
-                        put("messageType", DialogFactoryOptions.dialogType.ERROR);
-                        put("title", "Error");
-                        put("message", e.getMessage());
-                    }
-                }).run();
-            }
+            new Thread(() -> {
+                IPDFParser pdfParser = new PDFParser();
+                Set<Page> pages;
+
+                try {
+                    loadingText.setVisible(true);
+                    progressBar.setVisible(true);
+
+                    pages = pdfParser.run(filePath, (text) -> loadingText.setText(text));
+
+                    progressBar.setVisible(false);
+                    loadingText.setVisible(false);
+
+                    System.out.println(pages);
+                } catch (Exception e) {
+                    dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<>() {
+                        {
+                            put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                            put("title", "Error");
+                            put("message", e.getMessage());
+                        }
+                    }).run();
+                }
+            }).start();
         }
     }
 }

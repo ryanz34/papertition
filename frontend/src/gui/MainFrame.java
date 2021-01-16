@@ -39,7 +39,6 @@ public class MainFrame implements IFrame {
             for (String lafName : targetLAF) {
                 try {
                     for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                        System.out.println(info.getName());
                         if (lafName.equals(info.getName())) {
                             UIManager.setLookAndFeel(info.getClassName());
                             return;
