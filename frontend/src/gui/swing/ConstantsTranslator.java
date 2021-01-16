@@ -1,15 +1,15 @@
-package swing;
+package gui.swing;
 
-import enums.DialogFactoryOptions;
+import gui.enums.DialogFactoryOptions;
 
 import javax.swing.*;
 
 /**
- * Translates between enums and the constants that swing uses
+ * Translates between gui.enums and the constants that gui.swing uses
  */
 public class ConstantsTranslator {
     /**
-     * Translates between enums and Swing dialog type constants
+     * Translates between gui.enums and Swing dialog type constants
      *
      * @param dialogType
      * @return
@@ -30,7 +30,7 @@ public class ConstantsTranslator {
     }
 
     /**
-     * Translates between enums and Swing dialog option constants
+     * Translates between gui.enums and Swing dialog option constants
      *
      * @param optionType
      * @return

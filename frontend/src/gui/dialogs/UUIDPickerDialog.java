@@ -1,7 +1,7 @@
-package dialogs;
+package gui.dialogs;
 
-import interfaces.IDialog;
-import interfaces.IFrame;
+import gui.interfaces.IDialog;
+import gui.interfaces.IFrame;
 
 import javax.swing.*;
 import java.util.ArrayList;

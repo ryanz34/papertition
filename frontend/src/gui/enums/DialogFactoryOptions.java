@@ -1,6 +1,4 @@
-package enums;
-
-import javax.swing.*;
+package gui.enums;
 
 /**
  * Enums pertaining to the dialog factory

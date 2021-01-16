@@ -1,10 +1,10 @@
-package factories;
+package gui.factories;
 
-import enums.PanelFactoryOptions;
-import interfaces.IFrame;
-import interfaces.IPanel;
-import interfaces.IPanelFactory;
-import mainMenu.MainMenuView;
+import gui.enums.PanelFactoryOptions;
+import gui.interfaces.IFrame;
+import gui.interfaces.IPanel;
+import gui.interfaces.IPanelFactory;
+import gui.mainMenu.MainMenuView;
 
 import java.util.HashMap;
 import java.util.Map;

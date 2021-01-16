@@ -1,4 +1,4 @@
-package enums;
+package gui.enums;
 
 /**
  * Enums pertaining to the panel factory

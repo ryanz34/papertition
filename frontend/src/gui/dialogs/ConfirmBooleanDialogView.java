@@ -1,9 +1,9 @@
-package dialogs;
+package gui.dialogs;
 
-import enums.DialogFactoryOptions;
-import interfaces.IDialog;
-import interfaces.IFrame;
-import swing.ConstantsTranslator;
+import gui.enums.DialogFactoryOptions;
+import gui.interfaces.IDialog;
+import gui.interfaces.IFrame;
+import gui.swing.ConstantsTranslator;
 
 import javax.swing.*;
 

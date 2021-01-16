@@ -1,6 +1,6 @@
-package interfaces;
+package gui.interfaces;
 
-import enums.PanelFactoryOptions;
+import gui.enums.PanelFactoryOptions;
 
 import java.util.Map;
 

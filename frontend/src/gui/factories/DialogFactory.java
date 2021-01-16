@@ -1,12 +1,12 @@
-package factories;
+package gui.factories;
 
-import dialogs.ConfirmBooleanDialogView;
-import dialogs.FilePickerView;
-import dialogs.MessageDialogView;
-import enums.DialogFactoryOptions;
-import interfaces.IDialog;
-import interfaces.IDialogFactory;
-import interfaces.IFrame;
+import gui.dialogs.ConfirmBooleanDialogView;
+import gui.dialogs.FilePickerView;
+import gui.dialogs.MessageDialogView;
+import gui.enums.DialogFactoryOptions;
+import gui.interfaces.IDialog;
+import gui.interfaces.IDialogFactory;
+import gui.interfaces.IFrame;
 
 import java.util.HashMap;
 import java.util.Map;

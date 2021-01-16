@@ -1,7 +1,7 @@
-package mainMenu;
+package gui.mainMenu;
 
-import interfaces.IFrame;
-import interfaces.IPanel;
+import gui.interfaces.IFrame;
+import gui.interfaces.IPanel;
 
 import javax.swing.*;
 

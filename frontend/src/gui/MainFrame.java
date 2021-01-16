@@ -1,16 +1,17 @@
-import enums.PanelFactoryOptions;
-import factories.DialogFactory;
-import factories.PanelFactory;
-import interfaces.IDialogFactory;
-import interfaces.IFrame;
-import interfaces.IPanel;
-import interfaces.IPanelFactory;
-import mainMenu.MainMenuView;
+package gui;
+
+import gui.enums.PanelFactoryOptions;
+import gui.factories.DialogFactory;
+import gui.factories.PanelFactory;
+import gui.interfaces.IDialogFactory;
+import gui.interfaces.IFrame;
+import gui.interfaces.IPanel;
+import gui.interfaces.IPanelFactory;
 
 import javax.swing.*;
 import java.awt.*;
 
-class MainFrame implements IFrame {
+public class MainFrame implements IFrame {
 
     private JFrame frame;
 
@@ -86,8 +87,7 @@ class MainFrame implements IFrame {
     }
 
 
-    void run() {
-
+    public void run() {
         setLookAndFeel();
 
         frame = new JFrame("Papertition");
