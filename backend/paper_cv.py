@@ -122,7 +122,7 @@ def detect_lines(img, outname, debug=False, vhthreshold=0.1, v_line_margin=200):
     x = (v[0][0] + v[1][0]) // 2
     y = (h[0][1] + h[1][1]) // 2
 
-    cropped = gray[1:y, 1:x]
+    cropped = gray[1:y, 1:img.shape[1]]
     if debug:
         cv2.imwrite(outname + 'cropped.jpg', cropped)
 
