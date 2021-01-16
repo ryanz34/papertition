@@ -54,4 +54,4 @@ def parse(path):
 
 
 if __name__ == '__main__':
-    parse("../test_data/test.pdf")
+    parse("../test_data/textbook.pdf")
