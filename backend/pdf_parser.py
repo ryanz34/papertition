@@ -32,15 +32,12 @@ def parse(path):
         image = vision.Image(content=content)
 
         response = client.document_text_detection(image=image)
-        print(response)
         labels = response.text_annotations
-
         for l in labels:
-            print(l.description)
-
-        # Fetch the page # and pdf id from the cv thingie
-        page.pdf_id = 69
-        page.page = 69
+            if l.description.strip().strip('\n') in {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}:
+                page.pdf_id = int(l.description.strip().strip('\n'))
+                page.page = int(l.description.strip().strip('\n'))
+                break
 
     # Next let the user reorder it if they want to
 
@@ -48,4 +45,4 @@ def parse(path):
 
 
 if __name__ == '__main__':
-    parse("../test_data/a.pdf")
+    parse("../test_data/k.pdf")
