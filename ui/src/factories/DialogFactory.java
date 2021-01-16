@@ -1,6 +1,7 @@
 package factories;
 
 import dialogs.ConfirmBooleanDialogView;
+import dialogs.FilePickerView;
 import dialogs.MessageDialogView;
 import enums.DialogFactoryOptions;
 import interfaces.IDialog;
@@ -9,6 +10,7 @@ import interfaces.IFrame;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * factory to make dialogue panels for the GUI
@@ -22,7 +24,6 @@ public class DialogFactory implements IDialogFactory {
     public DialogFactory(IFrame mainFrame) {
         this.mainFrame = mainFrame;
     }
-
 
     /**
      * Generate a dialog given its name with no parameters
@@ -45,6 +46,8 @@ public class DialogFactory implements IDialogFactory {
     @Override
     public IDialog createDialog(DialogFactoryOptions.dialogNames name, Map<String, Object> arguments) {
         switch (name) {
+            case FILE_PICKER:
+                return new FilePickerView(mainFrame, (DialogFactoryOptions.selectionMode) arguments.get("selectionMode"), (Set<String>) arguments.get("extensions"));
             case MESSAGE:
                 return new MessageDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.getOrDefault("title", "Message"), (DialogFactoryOptions.dialogType) arguments.get("messageType"));
             case CONFIRM_BOOLEAN:

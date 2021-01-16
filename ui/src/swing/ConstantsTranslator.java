@@ -47,4 +47,15 @@ public class ConstantsTranslator {
                 return JOptionPane.DEFAULT_OPTION;
         }
     }
+
+    public int translateFileSelectionMode(DialogFactoryOptions.selectionMode fileSelection) {
+        switch (fileSelection) {
+            case DIRECTORIES_ONLY:
+                return JFileChooser.DIRECTORIES_ONLY;
+            case FILES_ONLY:
+                return JFileChooser.FILES_ONLY;
+            default: FILES_AND_DIRECTORIES:
+                return JFileChooser.FILES_AND_DIRECTORIES;
+        }
+    }
 }

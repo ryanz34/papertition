@@ -10,7 +10,7 @@ public class MainMenuView implements IPanel {
     private JPanel mainMenuPanel;
 
     public MainMenuView(IFrame mainFrame) {
-        MainMenuPresenter presenter = new MainMenuPresenter();
+        MainMenuPresenter presenter = new MainMenuPresenter(mainFrame);
 
         selectFileToStartButton.addActionListener((e) -> presenter.upload());
     }
