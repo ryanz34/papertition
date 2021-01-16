@@ -4,10 +4,13 @@ import gui.enums.PanelFactoryOptions;
 import gui.interfaces.IFrame;
 import gui.interfaces.IPanel;
 import gui.interfaces.IPanelFactory;
-import gui.mainMenu.MainMenuView;
+import gui.panels.mainMenu.MainMenuView;
+import gui.panels.orderPages.OrderPagesView;
+import pages.Page;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Creates IPanels for an IFrame given its name and some initializing arguments
@@ -45,6 +48,8 @@ public class PanelFactory implements IPanelFactory {
         switch (name) {
             case MAIN_MENU:
                 return new MainMenuView(mainFrame);
+            case ORDER_PAGES:
+                return new OrderPagesView(mainFrame, (Set<Page>) initializationArguments.get("pages"));
             default:
                 throw new RuntimeException("u screwed up");
         }

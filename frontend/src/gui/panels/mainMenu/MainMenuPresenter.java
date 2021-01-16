@@ -1,12 +1,11 @@
-package gui.mainMenu;
+package gui.panels.mainMenu;
 
 import controllers.IPDFParser;
 import controllers.PDFParser;
 import gui.enums.DialogFactoryOptions;
-import gui.interfaces.IDialog;
-import gui.interfaces.IDialogFactory;
-import gui.interfaces.IFrame;
-import gui.interfaces.IPanelFactory;
+import gui.enums.PanelFactoryOptions;
+import gui.factories.PanelFactory;
+import gui.interfaces.*;
 import pages.Page;
 
 import javax.swing.*;
@@ -20,8 +19,10 @@ class MainMenuPresenter {
     private IPanelFactory panelFactory;
 
     private MainMenuView mainMenuView;
+    private IFrame mainFrame;
 
     MainMenuPresenter(IFrame mainFrame, MainMenuView mainMenuView) {
+        this.mainFrame = mainFrame;
         this.mainMenuView = mainMenuView;
         dialogFactory = mainFrame.getDialogFactory();
         panelFactory = mainFrame.getPanelFactory();
@@ -45,6 +46,7 @@ class MainMenuPresenter {
         if (filePath != null && filePath.length() > 0) {
             JProgressBar progressBar = mainMenuView.getProgressBar();
             JLabel loadingText = mainMenuView.getLoadingText();
+            JButton getSelectFileToStartButton = mainMenuView.getSelectFileToStartButton();
 
             new Thread(() -> {
                 IPDFParser pdfParser = new PDFParser();
@@ -53,13 +55,22 @@ class MainMenuPresenter {
                 try {
                     loadingText.setVisible(true);
                     progressBar.setVisible(true);
+                    getSelectFileToStartButton.setEnabled(false);
 
                     pages = pdfParser.run(filePath, (text) -> loadingText.setText(text));
 
                     progressBar.setVisible(false);
                     loadingText.setVisible(false);
+                    getSelectFileToStartButton.setEnabled(true);
 
-                    System.out.println(pages);
+                    IPanel orderPagesPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.ORDER_PAGES, new HashMap<>() {
+                        {
+                            put("pages", pages);
+                        }
+                    });
+
+                    mainFrame.setPanel(orderPagesPanel);
+
                 } catch (Exception e) {
                     dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<>() {
                         {

@@ -1,4 +1,4 @@
-package gui.mainMenu;
+package gui.panels.mainMenu;
 
 import gui.interfaces.IFrame;
 import gui.interfaces.IPanel;
@@ -17,11 +17,15 @@ public class MainMenuView implements IPanel {
         selectFileToStartButton.addActionListener((e) -> presenter.upload());
     }
 
-    public JProgressBar getProgressBar() {
+    JButton getSelectFileToStartButton() {
+        return selectFileToStartButton;
+    }
+
+    JProgressBar getProgressBar() {
         return progressBar;
     }
 
-    public JLabel getLoadingText() {
+    JLabel getLoadingText() {
         return loadingText;
     }
 

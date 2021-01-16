@@ -6,5 +6,6 @@ package gui.enums;
 public class PanelFactoryOptions {
     public enum panelNames {
         MAIN_MENU,
+        ORDER_PAGES
     }
 }
