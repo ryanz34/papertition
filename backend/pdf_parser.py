@@ -1,12 +1,13 @@
+import math
+import os
+import sys
+
 import numpy
 import paper_cv
 import pdf2image
 from google.cloud import vision
-import os
-import math
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath("papertition-c318e0fafafa.json")
-
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "papertition-c318e0fafafa.json"
 
 class Page:
     def __init__(self, image):
@@ -94,4 +95,14 @@ def parse(path):
 
 
 if __name__ == '__main__':
-    parse("../test_data/real_test_case.pdf")
+
+    args = sys.argv[1:]
+
+    if len(args) > 0:
+        # Do the parsing bro
+        if len(args) == 2 and args[0] == 'parse':
+            parse(args[1])
+        else:
+            raise Exception("Invalid arguments")
+    else:
+        parse("../test_data/real_test_case.pdf")

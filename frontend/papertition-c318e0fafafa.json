@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "papertition",
+  "private_key_id": "c318e0fafafa915935ffbd31f19583fca2257fff",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDeE8O+rKalA6cl\nPv6cy0VVS51q7r3RtC3jTW+RSvRa9gPeCdXv00Orn7tdZSGZJMPnzYjidQ+cqnpU\nfBDCUCoVA+MfHq7F4p4RznSsMKyP1sbK2eTysh8GEOYNYNDLCdm4Wwg5ufZeSJSG\nKMwDwKOKz8lQJKWzN5d0FPafwNk3jBSnr7b3V3hxboXE7tPPjK5S8oX462Qu9Vj8\nFzZEnXwtzpzyTYl/BERSygjrviiPv6mrDmMwE1Sj1c8ekc9VIUC1JSWXATF+K+DN\n+aAck1RyOwNCd2Q+uKqBC99ZeOB77Z8C2kgQd6XlwGz+iQfW/6Fg4Nzf1LuIHLgc\nYuE97pk5AgMBAAECggEADLCycdXp2+oehglYgVs4RgyBHVgxLqeOK7wEERhoaD5A\nsFJ9kCvRZSBGk6qwxdCNBVUAanhoAPrY7LT+PCxai0LimqelMxelEr1qe2B4q+uJ\nBpR2+ctl7HHQw5jxtXiFoXxKNwpCYtbg7d2s8tXyQn9nMJY3hcs6c16zTSO3Be53\nCjKGlBOhMxnIs0d7KAPmGNs91pYJeaxR5R16oG8rTBod7mtATn0IG6cTGJ1spwAf\nNvLnoEBGwn7o/wfZixsaCT9hgat0GKR5McXLkd8l1etVW63f5NNnvb3YorLTnflN\nFrWe5jWQfAfMVmjuidsSeZjjMDyUu+MCsPoX1/IvdQKBgQDzOdi7BLHlpepCVKHX\npstzxx83ZUSnh+5clmCeMaAtRt9nhw5X1HIIPY2YagP4FfjHKpy5Va7nQPgk8wkv\nz2RVFUbWAXTWg6Sm4vI52aAl8kuqWtjZx/YoQNiAXxtgMlPqN+RqZW94LEgFMR9a\nclFG38KEh+i20PqtlecEEge6DwKBgQDpvZMexOazFAugIKbHAuF8ZDkc0vWMneGf\nrKSiMnKyaZsx0+PjARbO3maQp/ja7lem443+IKu5R2iaPym0CGTdp9Z3bu3IALW4\nf/s1VxEBcoZ3qjfUCZJqHEXNRS95iKHEpq6p7s+q6lOsE98NG9aX+wtJtNYCW/YM\nKrGsf4BgNwKBgGGxI1cCrL1zpaLcwWCP0vn+yZADcc7kbx3rHIWNoytsYwD/Iwiu\nANtEdeH4+v0jPhgpCmf6fVTPKJwWreLxJvhxolEEprwehfyt/OK1gXicWD3lXWIj\nycAjQ5JUIPfDXycdKfZ+JYacKpVDRLecYP7ZkxSOTi9XwsgEBJUC9O2LAoGBAOJF\nre1EaZyEVDjAQxM2u7gigZNguWpV0Hw1se5+bcA/MYjL+bjgbgb3D00L/oFZ56pc\ncTHIyNSEx0NC0AlDcvmMp7ZYwYEzBrfD1Riu33yKNJgVRRRT69Qi6IOtbSb22Ls5\nLK6+y3RGgZd8aRoUj+nykdvZXq9L/OWMUxGNIGaDAoGBAMU83Sxss86sXsCwQLkO\n33S/kNsQahRBkURXMm+Dh2YBKgK8EKQsUXG1bsYUBZRqkJ1/k1dV0y30LUKGB6ug\nU846LJl33DUsytvav3S6gP2fK7waycYGE7rDM5mgxLiJztQ0YmxwxjUDXKyUWWM/\ncEMBPsXIQrQA8Fsb/dfjjeUt\n-----END PRIVATE KEY-----\n",
+  "client_email": "backend@papertition.iam.gserviceaccount.com",
+  "client_id": "117032434832668456912",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/backend%40papertition.iam.gserviceaccount.com"
+}
