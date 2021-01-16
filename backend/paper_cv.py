@@ -25,7 +25,7 @@ def length(x1, y1, x2, y2):
     return math.hypot(dx, dy)
 
 
-def detect_lines(img, outname, debug=False, vhthreshold=0.05):
+def detect_lines(img, outname, debug=False, vhthreshold=0.05, hgap=200):
 
     lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
 
@@ -59,7 +59,7 @@ def detect_lines(img, outname, debug=False, vhthreshold=0.05):
 
         if vertical(lines[i][0][0], lines[i][0][1], lines[i][0][2], lines[i][0][3], vhthreshold):
 
-            if length(lines[i][0][0], lines[i][0][1], lines[i][0][2], lines[i][0][3]) > length(v[0][0], v[0][1], v[1][0], v[1][1]):
+            if lines[i][0][0] > hgap and length(lines[i][0][0], lines[i][0][1], lines[i][0][2], lines[i][0][3]) > length(v[0][0], v[0][1], v[1][0], v[1][1]):
 
                 vdetect = True
                 v = (lines[i][0][0], lines[i][0][1]), (lines[i][0][2], lines[i][0][3])
@@ -73,12 +73,12 @@ def detect_lines(img, outname, debug=False, vhthreshold=0.05):
     if not vdetect or not hdetect:
         raise Exception("Cannot detect valid vertical or horizontal line")
 
-
     x = (v[0][0] + v[1][0]) // 2
     y = (h[0][1] + h[1][1]) // 2
 
     cropped = gray[1:y, 1:x]
-    cv2.imwrite(outname + 'cropped.jpg', cropped)
+    if debug:
+        cv2.imwrite(outname + 'cropped.jpg', cropped)
 
     if debug:
         cv2.line(gray, v[0], v[1], (0, 0, 255), 4)
@@ -86,6 +86,11 @@ def detect_lines(img, outname, debug=False, vhthreshold=0.05):
 
         cv2.imwrite(outname + 'houghlines5.jpg', gray)
 
+    retval, buffer = cv2.imencode('.png', cropped)
+    imgbytes = buffer.tobytes()
+
+    return imgbytes
+
 
 if __name__ == '__main__':
-    detect_lines(cv2.imread('TData/k-2.jpg'), 'k-2')
+    detect_lines(cv2.imread('TData/k-2.jpg'), 'k-2', debug=True)
