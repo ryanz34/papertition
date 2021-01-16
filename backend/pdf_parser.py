@@ -16,7 +16,7 @@ class Page:
         self.path = ''
 
     def __repr__(self):
-        return "%s,%s,%s" % (str(self.pdf_id), str(self.page), self.path)
+        return "\"%s\",\"%s\",\"%s\"" % (str(self.pdf_id), str(self.page), self.path)
 
     def __str__(self):
         return self.__repr__()
@@ -84,11 +84,9 @@ def parse(path):
 
             pages[p].pdf_id = pid.num
             pages[p].page = page.num
-            pages[p].path = 'out/' + str(p) + '.jpg'
+            pages[p].path = os.path.abspath('out/' + str(p) + '.jpg')
 
-    with open('info.csv', 'w') as f:
-        f.write('\n'.join([str(x) for x in pages]))
-        f.close()
+    print("\n".join([str(x) for x in pages]))
 
     # Next let the user reorder it if they want to
 
