@@ -84,7 +84,7 @@ def parse(path):
 
             pages[p].pdf_id = pid.num
             pages[p].page = page.num
-            pages[p].path = 'out/' + str(p) + '.jpg'
+            pages[p].path = os.path.abspath('out/' + str(p) + '.jpg')
 
     with open('info.csv', 'w') as f:
         f.write('\n'.join([str(x) for x in pages]))
