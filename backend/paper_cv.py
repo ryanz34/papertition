@@ -96,12 +96,6 @@ def detect_lines(img, outname, debug=False, vhthreshold=0.1, v_line_margin=200):
     a, lines = get_lines(gray, debug=debug, outname=outname)
     v, h = vertical_detection(lines, a, vhthreshold, v_line_margin=v_line_margin, max_h_line=(not hflipped))
 
-    if debug:
-        cv2.line(gray, v[0], v[1], (0, 0, 255), 4)
-        cv2.line(gray, h[0], h[1], (0, 0, 255), 4)
-
-        cv2.imwrite(outname + 'brot5.jpg', gray)
-
     recalculate = False
     if hflipped:
         if h[0][1] + h[1][1] // 2 < img.shape[0] // 2:
@@ -125,6 +119,8 @@ def detect_lines(img, outname, debug=False, vhthreshold=0.1, v_line_margin=200):
     cropped = gray[1:y, 1:img.shape[1]]
     if debug:
         cv2.imwrite(outname + 'cropped.jpg', cropped)
+
+    cv2.imwrite(outname + '.jpg', gray)
 
     if debug:
         cv2.line(gray, v[0], v[1], (0, 0, 255), 4)

@@ -7,17 +7,20 @@ import math
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath("papertition-c318e0fafafa.json")
 
+
 class Page:
     def __init__(self, image):
         self.image = image
         self.pdf_id = -1
         self.page = -1
+        self.path = ''
 
     def __repr__(self):
-        return "PDF ID: %s Page: %s" % (str(self.pdf_id), str(self.page))
+        return "%s,%s,%s" % (str(self.pdf_id), str(self.page), self.path)
 
     def __str__(self):
-        return self.__repr__
+        return self.__repr__()
+
 
 class Text:
     def __init__(self, bounds, num):
@@ -39,8 +42,10 @@ class Text:
     def compute_dist(self):
         return math.hypot(self.x, self.y)
 
-def dist(num : Text):
+
+def dist(num: Text):
     return num.dist
+
 
 def import_pages(path):
     """
@@ -58,7 +63,7 @@ def parse(path):
     client = vision.ImageAnnotatorClient()
 
     for p in range(len(pages)):
-        content = paper_cv.detect_lines(pages[p].image, 'out/wtf'+str(p), debug=False)
+        content = paper_cv.detect_lines(pages[p].image, 'out/' + str(p), debug=False)
         image = vision.Image(content=content)
 
         response = client.document_text_detection(image=image)
@@ -79,8 +84,11 @@ def parse(path):
 
             pages[p].pdf_id = pid.num
             pages[p].page = page.num
+            pages[p].path = 'out/' + str(p) + '.jpg'
 
-    print(pages)
+    with open('info.csv', 'w') as f:
+        f.write('\n'.join([str(x) for x in pages]))
+        f.close()
 
     # Next let the user reorder it if they want to
 
