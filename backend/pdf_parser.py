@@ -2,7 +2,9 @@ import numpy
 import paper_cv
 import pdf2image
 from google.cloud import vision
+import os
 
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath("papertition-c318e0fafafa.json")
 
 class Page:
     def __init__(self, image):
@@ -18,7 +20,7 @@ def import_pages(path):
     :return:
     """
 
-    return [Page(numpy.asarray(image)) for image in pdf2image.convert_from_path(path, poppler_path="c:\\Users\\ryan\\PycharmProjects\\papertition\\poppler-20.12.1\\Library\\bin")]
+    return [Page(numpy.asarray(image)) for image in pdf2image.convert_from_path(path)]
 
 
 def parse(path):
