@@ -117,7 +117,7 @@ def detect_lines(img, outname, debug=False, vhthreshold=0.1, v_line_margin=200):
 
     if recalculate:
         a, lines = get_lines(gray, debug=debug, outname=outname+"r")
-        v, h = vertical_detection(lines, a, vhthreshold, v_line_margin=v_line_margin, max_h_line=hflipped)
+        v, h = vertical_detection(lines, a, vhthreshold, v_line_margin=v_line_margin, max_h_line=True)
 
     x = (v[0][0] + v[1][0]) // 2
     y = (h[0][1] + h[1][1]) // 2

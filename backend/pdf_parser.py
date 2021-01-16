@@ -45,7 +45,6 @@ def parse(path):
                 pages[p].pdf_id = int(l.description.strip().strip('\n'))
                 pages[p].page = int(l.description.strip().strip('\n'))
                 break
-
     print(pages)
 
     # Next let the user reorder it if they want to
@@ -54,4 +53,4 @@ def parse(path):
 
 
 if __name__ == '__main__':
-    parse("../test_data/test.pdf")
+    parse("../test_data/real_test_case.pdf")
