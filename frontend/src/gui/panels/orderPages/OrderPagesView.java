@@ -10,11 +10,19 @@ import java.util.Set;
 public class OrderPagesView implements IPanel {
     private JPanel panel;
     private JButton cancelButton;
+    private JButton importButton;
+    private JButton exportButton;
 
     public OrderPagesView(IFrame mainFrame, Set<Page> pages) {
         OrderPagesPresenter orderPagesPresenter = new OrderPagesPresenter(mainFrame, this, pages);
 
         cancelButton.addActionListener((e) -> orderPagesPresenter.cancel());
+        importButton.addActionListener((e) -> orderPagesPresenter.importMore());
+        exportButton.addActionListener((e) -> orderPagesPresenter.export());
+    }
+
+    JButton getImportButton() {
+        return importButton;
     }
 
     @Override

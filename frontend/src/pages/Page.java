@@ -27,4 +27,9 @@ public class Page {
     public String toString() {
         return String.format("Path: %s Document ID: %d Page: %d", path, documentID, page);
     }
+
+    @Override
+    public int hashCode() {
+        return path.hashCode();
+    }
 }

@@ -1,16 +1,21 @@
 package gui.panels.orderPages;
 
+import controllers.IPDFParser;
+import controllers.PDFParser;
 import gui.enums.DialogFactoryOptions;
 import gui.enums.PanelFactoryOptions;
+import gui.interfaces.IDialog;
 import gui.interfaces.IDialogFactory;
 import gui.interfaces.IFrame;
 import gui.interfaces.IPanelFactory;
 import pages.Page;
 
+import javax.swing.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
-public class OrderPagesPresenter {
+class OrderPagesPresenter {
 
     private IDialogFactory dialogFactory;
     private IPanelFactory panelFactory;
@@ -19,7 +24,7 @@ public class OrderPagesPresenter {
     private IFrame mainFrame;
     private Set<Page> pages;
 
-    public OrderPagesPresenter(IFrame mainFrame, OrderPagesView orderPagesView, Set<Page> pages) {
+    OrderPagesPresenter(IFrame mainFrame, OrderPagesView orderPagesView, Set<Page> pages) {
         this.mainFrame = mainFrame;
         this.orderPagesView = orderPagesView;
         this.pages = pages;
@@ -28,7 +33,7 @@ public class OrderPagesPresenter {
         this.panelFactory = mainFrame.getPanelFactory();
     }
 
-    public void cancel() {
+    void cancel() {
         boolean confirmation = (boolean) dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<>() {
             {
                 put("message", "Are you sure you want to quit? You will lose all progress");
@@ -40,5 +45,39 @@ public class OrderPagesPresenter {
         if (confirmation) {
             mainFrame.setPanel(panelFactory.createPanel(PanelFactoryOptions.panelNames.MAIN_MENU));
         }
+    }
+
+    void importMore() {
+        JButton importButton = orderPagesView.getImportButton();
+
+        IDialog uploadDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.FILE_PICKER, new HashMap<>() {
+            {
+                put("extensions", new HashSet<String>() {
+                    {
+                        add("pdf");
+                    }
+                });
+                put("selectionMode", DialogFactoryOptions.selectionMode.FILES_ONLY);
+            }
+        });
+
+        String filePath = (String) uploadDialog.run();
+
+        if (filePath != null && filePath.length() > 0) {
+            new Thread(() -> {
+                IPDFParser pdfParser = new PDFParser();
+
+                importButton.setEnabled(false);
+
+                pages.addAll(pdfParser.run(filePath, importButton::setText));
+
+                importButton.setEnabled(true);
+                importButton.setText("Import");
+            }).run();
+        }
+    }
+
+    void export() {
+
     }
 }
