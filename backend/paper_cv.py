@@ -1,6 +1,7 @@
-import numpy as np
-import cv2
 import math
+
+import cv2
+import numpy as np
 
 
 def vertical(x1, y1, x2, y2, threshold):
@@ -24,8 +25,7 @@ def length(x1, y1, x2, y2):
     return math.hypot(dx, dy)
 
 
-def detectlines(path, outname, debug=False):
-    gray = cv2.imread(path)
+def detect_lines(gray, outname, debug=False):
     edges = cv2.Canny(gray, 50, 150, apertureSize=3)
 
     if debug:
@@ -75,4 +75,4 @@ def detectlines(path, outname, debug=False):
 
 
 if __name__ == '__main__':
-    detectlines('TData/k-2.jpg', 'k-2')
+    detect_lines(cv2.imread('TData/k-2.jpg'), 'k-2')
