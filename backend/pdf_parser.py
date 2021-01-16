@@ -12,6 +12,12 @@ class Page:
         self.pdf_id = -1
         self.page = -1
 
+    def __repr__(self):
+        return "PDF ID: %s Page: %s" % (str(self.pdf_id), str(self.page))
+
+    def __str__(self):
+        return self.__repr__
+
 
 def import_pages(path):
     """
@@ -39,6 +45,8 @@ def parse(path):
                 pages[p].pdf_id = int(l.description.strip().strip('\n'))
                 pages[p].page = int(l.description.strip().strip('\n'))
                 break
+
+    print(pages)
 
     # Next let the user reorder it if they want to
 
