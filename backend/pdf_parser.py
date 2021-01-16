@@ -58,7 +58,7 @@ def parse(path):
     client = vision.ImageAnnotatorClient()
 
     for p in range(len(pages)):
-        content = paper_cv.detect_lines(pages[p].image, 'wtf'+str(p), debug=True)
+        content = paper_cv.detect_lines(pages[p].image, 'out/wtf'+str(p), debug=False)
         image = vision.Image(content=content)
 
         response = client.document_text_detection(image=image)
