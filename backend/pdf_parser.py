@@ -22,21 +22,20 @@ def import_pages(path):
 
 
 def parse(path):
-    pages = import_pages(path)[:1]
+    pages = import_pages(path)
 
     client = vision.ImageAnnotatorClient()
 
-    for page in pages:
-        content = paper_cv.detect_lines(page.image, 'wtf', debug=True)
-
+    for p in range(len(pages)):
+        content = paper_cv.detect_lines(pages[p].image, 'wtf'+str(p), debug=True)
         image = vision.Image(content=content)
 
         response = client.document_text_detection(image=image)
         labels = response.text_annotations
         for l in labels:
             if l.description.strip().strip('\n') in {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}:
-                page.pdf_id = int(l.description.strip().strip('\n'))
-                page.page = int(l.description.strip().strip('\n'))
+                pages[p].pdf_id = int(l.description.strip().strip('\n'))
+                pages[p].page = int(l.description.strip().strip('\n'))
                 break
 
     # Next let the user reorder it if they want to
@@ -45,4 +44,4 @@ def parse(path):
 
 
 if __name__ == '__main__':
-    parse("../test_data/k.pdf")
+    parse("../test_data/test.pdf")
