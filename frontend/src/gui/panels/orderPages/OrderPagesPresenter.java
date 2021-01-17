@@ -31,6 +31,24 @@ class OrderPagesPresenter {
 
         this.dialogFactory = mainFrame.getDialogFactory();
         this.panelFactory = mainFrame.getPanelFactory();
+
+        updateView();
+    }
+
+    void updateView() {
+        JList documentList = orderPagesView.getDocumentList();
+
+        DefaultListModel listModel = new DefaultListModel();
+
+        int i = 0;
+
+        JPanel wtf = new JPanel();
+        for (Page page : pages) {
+            listModel.add(i++, new ImageIcon(page.image));
+        }
+
+        documentList.setModel(listModel);
+
     }
 
     void cancel() {
@@ -65,14 +83,26 @@ class OrderPagesPresenter {
 
         if (filePath != null && filePath.length() > 0) {
             new Thread(() -> {
-                IPDFParser pdfParser = new PDFParser();
+                try {
+                    IPDFParser pdfParser = new PDFParser();
 
-                importButton.setEnabled(false);
+                    importButton.setEnabled(false);
 
-                pages.addAll(pdfParser.run(filePath, importButton::setText));
+                    pages.addAll(pdfParser.run(filePath, importButton::setText));
+                } catch (Exception e) {
+                    dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<>() {
+                        {
+                            put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                            put("title", "Error");
+                            put("message", e.getMessage());
+                        }
+                    }).run();
+                }
 
                 importButton.setEnabled(true);
                 importButton.setText("Import");
+
+                updateView();
             }).run();
         }
     }

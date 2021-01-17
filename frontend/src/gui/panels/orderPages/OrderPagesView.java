@@ -12,6 +12,8 @@ public class OrderPagesView implements IPanel {
     private JButton cancelButton;
     private JButton importButton;
     private JButton exportButton;
+    private JScrollPane scrollPane;
+    private JList documentList;
 
     public OrderPagesView(IFrame mainFrame, Set<Page> pages) {
         OrderPagesPresenter orderPagesPresenter = new OrderPagesPresenter(mainFrame, this, pages);
@@ -19,6 +21,10 @@ public class OrderPagesView implements IPanel {
         cancelButton.addActionListener((e) -> orderPagesPresenter.cancel());
         importButton.addActionListener((e) -> orderPagesPresenter.importMore());
         exportButton.addActionListener((e) -> orderPagesPresenter.export());
+    }
+
+    JList getDocumentList() {
+        return documentList;
     }
 
     JButton getImportButton() {
