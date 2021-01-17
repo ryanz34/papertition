@@ -40,6 +40,20 @@ class OrderPagesPresenter {
         this.panelFactory = mainFrame.getPanelFactory();
 
         updateView();
+
+        if (outputDocuments.get(-1) != null) {
+            invalidIndexingMessage();
+        }
+    }
+
+    void invalidIndexingMessage() {
+        dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<>() {
+            {
+                put("messageType", DialogFactoryOptions.dialogType.WARNING);
+                put("title", "Index Error");
+                put("message", "Some pages were not indexed correctly. These pages were assigned an ID of -1.");
+            }
+        }).run();
     }
 
     /**
@@ -49,11 +63,14 @@ class OrderPagesPresenter {
         outputDocuments = new HashMap<>();
 
         for (Page page : pages) {
-            if (outputDocuments.get(page.documentID) == null) {
-                outputDocuments.put(page.documentID, new ArrayList<>());
+            // If the page is -1, then we'll put it with the documentID -1 group so it can be corrected
+            int documentID = page.page == -1 ? -1 : page.documentID;
+
+            if (outputDocuments.get(documentID) == null) {
+                outputDocuments.put(documentID, new ArrayList<>());
             }
 
-            outputDocuments.get(page.documentID).add(page);
+            outputDocuments.get(documentID).add(page);
         }
 
         for (int documentID : outputDocuments.keySet()) {
@@ -180,11 +197,31 @@ class OrderPagesPresenter {
                 importButton.setText("Import");
 
                 updateView();
+
+                if (outputDocuments.get(-1) != null) {
+                    invalidIndexingMessage();
+                }
             }).start();
         }
     }
 
     void export() {
+
+        if (outputDocuments.get(-1) != null) {
+            boolean confirmation = (boolean) dialogFactory.createDialog(DialogFactoryOptions.dialogNames.CONFIRM_BOOLEAN, new HashMap<>() {
+                {
+                    put("messageType", DialogFactoryOptions.dialogType.WARNING);
+                    put("title", "Index Error");
+                    put("confirmationType", DialogFactoryOptions.optionType.YES_NO_OPTION);
+                    put("message", "Some pages were not indexed correctly. Are you sure you want to proceed with the export?\n\nThe un-indexed pages will be saved in document -1.");
+                }
+            }).run();
+
+            if (!confirmation) {
+                return;
+            }
+        }
+
         JButton exportButton = orderPagesView.getExportButton();
 
         IDialog exportDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.FILE_PICKER, new HashMap<>() {

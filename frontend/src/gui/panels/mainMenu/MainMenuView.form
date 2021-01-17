@@ -14,7 +14,7 @@
         </constraints>
         <properties>
           <font size="28" style="1"/>
-          <text value="Papertition"/>
+          <text value="Papertition (It partitions your paper)"/>
         </properties>
       </component>
       <component id="3e91a" class="javax.swing.JLabel">
