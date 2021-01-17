@@ -18,6 +18,8 @@ public class PDFSaver {
                 {
                     add("python3");
                     add("../backend/Merger.py");
+                    add("-o");
+                    add(path);
                 }
             };
 
