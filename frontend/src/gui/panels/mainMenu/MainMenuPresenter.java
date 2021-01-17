@@ -42,8 +42,6 @@ class MainMenuPresenter {
         String filePath = (String) uploadDialog.run();
 
         if (filePath != null && filePath.length() > 0) {
-            JProgressBar progressBar = mainMenuView.getProgressBar();
-            JLabel loadingText = mainMenuView.getLoadingText();
             JButton getSelectFileToStartButton = mainMenuView.getSelectFileToStartButton();
 
             new Thread(() -> {
@@ -51,14 +49,10 @@ class MainMenuPresenter {
                 Set<Page> pages;
 
                 try {
-                    loadingText.setVisible(true);
-                    progressBar.setVisible(true);
                     getSelectFileToStartButton.setEnabled(false);
 
-                    pages = pdfParser.run(filePath, (text) -> loadingText.setText(text));
+                    pages = pdfParser.run(filePath, getSelectFileToStartButton::setText);
 
-                    progressBar.setVisible(false);
-                    loadingText.setVisible(false);
                     getSelectFileToStartButton.setEnabled(true);
 
                     IPanel orderPagesPanel = panelFactory.createPanel(PanelFactoryOptions.panelNames.ORDER_PAGES, new HashMap<>() {
