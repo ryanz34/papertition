@@ -25,16 +25,25 @@ class PDFPackage:
 args = sys.argv
 current = ''
 
-for i in range(1, len(args)):
+if len(args) <= 3:
+    raise Exception("No output path specified")
+elif args[1] != '-o':
+    raise Exception("-o required")
+
+output_path = args[2]
+if len(output_path) > 1 and output_path[-1] != '/':
+    output_path = output_path+'/'
+
+
+for i in range(3, len(args)):
     if len(args[i]) > 0 and args[i][0] == '-':
         if current != '':
-            current.save('out/')
+            current.save(output_path)
 
         name = args[i].strip('-')
-        print(name)
         current = PDFPackage(name)
 
     else:
         current.append(args[i])
 
-current.save('out/')
+current.save(output_path)
