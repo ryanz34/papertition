@@ -85,8 +85,12 @@ def parse(path):
                 pid = min(pid, n, key=dist)
                 page = max(page, n, key=dist)
 
-            pages[p].pdf_id = pid.num
-            pages[p].page = page.num
+            if pid.x < pages[p].image.shape[1] // 2:
+                pages[p].pdf_id = pid.num
+
+            if page.x > pages[p].image.shape[1] // 2:
+                pages[p].page = page.num
+
             pages[p].path = os.path.abspath('out/' + fname + str(p) + '.jpg')
 
     print("\n".join([str(x) for x in pages]))
