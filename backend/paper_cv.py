@@ -73,7 +73,7 @@ def vertical_detection(lines, a, vhthreshold, v_line_margin, max_h_line=False):
 
     if not vdetect or not hdetect:
 
-        raise Exception(hdetect, vdetect, "Cannot detect valid vertical or horizontal line")
+        return -1, -1
 
     return v, h
 
@@ -96,6 +96,10 @@ def detect_lines(img, outname, debug=False, vhthreshold=0.1, v_line_margin=200):
     a, lines = get_lines(gray, debug=debug, outname=outname)
     v, h = vertical_detection(lines, a, vhthreshold, v_line_margin=v_line_margin, max_h_line=(not hflipped))
 
+    if v == -1 and h == -1:
+        cv2.imwrite(outname + '.jpg', gray)
+        return -1
+
     recalculate = False
     if hflipped:
         if h[0][1] + h[1][1] // 2 < img.shape[0] // 2:
@@ -112,6 +116,9 @@ def detect_lines(img, outname, debug=False, vhthreshold=0.1, v_line_margin=200):
     if recalculate:
         a, lines = get_lines(gray, debug=debug, outname=outname+"r")
         v, h = vertical_detection(lines, a, vhthreshold, v_line_margin=v_line_margin, max_h_line=True)
+        if v == -1 and h == -1:
+            cv2.imwrite(outname + '.jpg', gray)
+            return -1
 
     x = (v[0][0] + v[1][0]) // 2
     y = (h[0][1] + h[1][1]) // 2

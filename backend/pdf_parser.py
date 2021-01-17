@@ -67,29 +67,33 @@ def parse(path):
 
     for p in range(len(pages)):
         content = paper_cv.detect_lines(pages[p].image, 'out/' + fname + str(p), debug=False)
-        image = vision.Image(content=content)
+        if content == -1:
+            pages[p].path = os.path.abspath('out/' + fname + str(p) + '.jpg')
+            continue
+        else:
+            image = vision.Image(content=content)
 
-        response = client.document_text_detection(image=image)
-        labels = response.text_annotations
-        numbers = []
+            response = client.document_text_detection(image=image)
+            labels = response.text_annotations
+            numbers = []
 
-        for l in labels:
-            if l.description.strip() in {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}:
-                numbers.append(Text(l.bounding_poly.vertices, int(l.description.strip())))
+            for l in labels:
+                if l.description.strip() in {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}:
+                    numbers.append(Text(l.bounding_poly.vertices, int(l.description.strip())))
 
-        if len(numbers) > 0:
-            pid = numbers[0]
-            page = numbers[0]
+            if len(numbers) > 0:
+                pid = numbers[0]
+                page = numbers[0]
 
-            for n in numbers:
-                pid = min(pid, n, key=dist)
-                page = max(page, n, key=dist)
+                for n in numbers:
+                    pid = min(pid, n, key=dist)
+                    page = max(page, n, key=dist)
 
-            if pid.x < pages[p].image.shape[1] // 2:
-                pages[p].pdf_id = pid.num
+                if pid.x < pages[p].image.shape[1] // 2:
+                    pages[p].pdf_id = pid.num
 
-            if page.x > pages[p].image.shape[1] // 2:
-                pages[p].page = page.num
+                if page.x > pages[p].image.shape[1] // 2:
+                    pages[p].page = page.num
 
             pages[p].path = os.path.abspath('out/' + fname + str(p) + '.jpg')
 
@@ -111,4 +115,4 @@ if __name__ == '__main__':
         else:
             raise Exception("Invalid arguments")
     else:
-        parse("../test_data/real_test_case.pdf")
+        parse("../test_data/test.pdf")
