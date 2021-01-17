@@ -40,7 +40,7 @@ for i in range(3, len(args)):
         if current != '':
             current.save(output_path)
 
-        name = args[i].strip('-')
+        name = args[i][1:]
         current = PDFPackage(name)
 
     else:
