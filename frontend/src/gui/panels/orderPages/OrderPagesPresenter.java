@@ -11,9 +11,9 @@ import gui.interfaces.IPanelFactory;
 import pages.Page;
 
 import javax.swing.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 class OrderPagesPresenter {
 
@@ -23,6 +23,9 @@ class OrderPagesPresenter {
     private OrderPagesView orderPagesView;
     private IFrame mainFrame;
     private Set<Page> pages;
+
+    // no time for clean architecture
+    private Map<Integer, List<Page>> outputDocuments;
 
     OrderPagesPresenter(IFrame mainFrame, OrderPagesView orderPagesView, Set<Page> pages) {
         this.mainFrame = mainFrame;
@@ -35,20 +38,61 @@ class OrderPagesPresenter {
         updateView();
     }
 
-    void updateView() {
-        JList documentList = orderPagesView.getDocumentList();
+    /**
+     * Generates documents based on their ID and page #
+     */
+    void updateDocuments() {
+        outputDocuments = new HashMap<>();
 
-        DefaultListModel listModel = new DefaultListModel();
-
-        int i = 0;
-
-        JPanel wtf = new JPanel();
         for (Page page : pages) {
-            listModel.add(i++, new ImageIcon(page.image));
+            if (outputDocuments.get(page.documentID) == null) {
+                outputDocuments.put(page.documentID, new ArrayList<>());
+            }
+
+            outputDocuments.get(page.documentID).add(page);
         }
 
-        documentList.setModel(listModel);
+        for (int documentID : outputDocuments.keySet()) {
+            outputDocuments.get(documentID).sort((a, b) -> {
+                if (a.page < b.page) {
+                    return -1;
+                } else if (a.page > b.page) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+        }
+    }
 
+    void updateView() {
+        updateDocuments();
+
+        JScrollPane scrollPane = orderPagesView.getScrollPane();
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        int rowNumber = 0;
+
+        for (int documentID : outputDocuments.keySet()) {
+            JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            JLabel rowLabel = new JLabel("Document " + documentID);
+
+            row.add(rowLabel);
+
+            if (rowNumber % 2 == 0) {
+                row.setBackground(new Color(200, 200, 200));
+            }
+
+            for (Page page : outputDocuments.get(documentID)) {
+                row.add(new JLabel(page.icon));
+            }
+
+            panel.add(row);
+            rowNumber++;
+        }
+
+        scrollPane.setViewportView(panel);
     }
 
     void cancel() {
