@@ -28,6 +28,10 @@ public class OrderPagesView implements IPanel {
         return scrollPane;
     }
 
+    JButton getExportButton() {
+        return exportButton;
+    }
+
     JButton getImportButton() {
         return importButton;
     }

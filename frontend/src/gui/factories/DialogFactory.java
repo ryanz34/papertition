@@ -47,7 +47,7 @@ public class DialogFactory implements IDialogFactory {
     public IDialog createDialog(DialogFactoryOptions.dialogNames name, Map<String, Object> arguments) {
         switch (name) {
             case FILE_PICKER:
-                return new FilePickerView(mainFrame, (DialogFactoryOptions.selectionMode) arguments.get("selectionMode"), (Set<String>) arguments.get("extensions"));
+                return new FilePickerView(mainFrame, (DialogFactoryOptions.selectionMode) arguments.get("selectionMode"), (Set<String>) arguments.get("extensions"), (String) arguments.get("title"));
             case MESSAGE:
                 return new MessageDialogView(mainFrame, (String) arguments.get("message"), (String) arguments.getOrDefault("title", "Message"), (DialogFactoryOptions.dialogType) arguments.get("messageType"));
             case CONFIRM_BOOLEAN:

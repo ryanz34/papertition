@@ -8,14 +8,10 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
-public class PDFParser implements IPDFParser {
+import static gui.utils.BufferTools.getAllBufferLines;
 
-    private String getAllBufferLines(BufferedReader reader) throws IOException {
-        return reader.lines().collect(Collectors.joining("\n"));
-    }
-
+public class PDFParser {
     private Set<Page> generatePages(String stdout) {
         Set<Page> out = new HashSet<>();
 
@@ -32,10 +28,9 @@ public class PDFParser implements IPDFParser {
         return out;
     }
 
-    @Override
     public Set<Page> run(String path, Consumer<String> setLoadingText) {
         try {
-            setLoadingText.accept("Preparing to import");
+            setLoadingText.accept("Preparing to import...");
 
             ProcessBuilder pb = new ProcessBuilder("python3", "../backend/pdf_parser.py", "parse", path);
 
@@ -47,7 +42,7 @@ public class PDFParser implements IPDFParser {
             BufferedReader stdoutReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             BufferedReader stderrReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
-            setLoadingText.accept("Processing");
+            setLoadingText.accept("Processing...");
 
             process.waitFor();
 

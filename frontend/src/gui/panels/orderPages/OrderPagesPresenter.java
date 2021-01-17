@@ -1,7 +1,9 @@
 package gui.panels.orderPages;
 
-import controllers.IPDFParser;
 import controllers.PDFParser;
+import controllers.PDFSaver;
+import controllers.PDFParser;
+import controllers.PDFSaver;
 import gui.enums.DialogFactoryOptions;
 import gui.enums.PanelFactoryOptions;
 import gui.interfaces.IDialog;
@@ -128,7 +130,7 @@ class OrderPagesPresenter {
         if (filePath != null && filePath.length() > 0) {
             new Thread(() -> {
                 try {
-                    IPDFParser pdfParser = new PDFParser();
+                    PDFParser pdfParser = new PDFParser();
 
                     importButton.setEnabled(false);
 
@@ -147,11 +149,58 @@ class OrderPagesPresenter {
                 importButton.setText("Import");
 
                 updateView();
-            }).run();
+            }).start();
         }
     }
 
     void export() {
+        JButton exportButton = orderPagesView.getExportButton();
 
+        IDialog exportDialog = dialogFactory.createDialog(DialogFactoryOptions.dialogNames.FILE_PICKER, new HashMap<>() {
+            {
+                put("selectionMode", DialogFactoryOptions.selectionMode.DIRECTORIES_ONLY);
+                put("extensions", new HashSet<String>() {
+                    {
+                        add("pdf");
+                    }
+                });
+                put("title", "Choose a directory to export to");
+            }
+        });
+
+        String filePath = (String) exportDialog.run();
+
+        if (filePath != null && filePath.length() > 0) {
+            PDFSaver pdfSaver = new PDFSaver();
+
+            new Thread(() -> {
+                try {
+                    exportButton.setEnabled(false);
+                    exportButton.setText("Exporting...");
+
+                    pdfSaver.save(filePath, outputDocuments);
+
+                    exportButton.setEnabled(true);
+                    exportButton.setText("Export");
+
+                    dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<>() {
+                        {
+                            put("messageType", DialogFactoryOptions.dialogType.INFORMATION);
+                            put("title", "Success");
+                            put("message", "Files have successfully been exported to the selected directory");
+                        }
+                    }).run();
+
+                } catch (Exception e) {
+                    dialogFactory.createDialog(DialogFactoryOptions.dialogNames.MESSAGE, new HashMap<>() {
+                        {
+                            put("messageType", DialogFactoryOptions.dialogType.ERROR);
+                            put("title", "Error");
+                            put("message", e.getMessage());
+                        }
+                    }).run();
+                }
+            }).start();
+        }
     }
 }

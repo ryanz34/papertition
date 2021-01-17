@@ -1,10 +1,8 @@
 package gui.panels.mainMenu;
 
-import controllers.IPDFParser;
 import controllers.PDFParser;
 import gui.enums.DialogFactoryOptions;
 import gui.enums.PanelFactoryOptions;
-import gui.factories.PanelFactory;
 import gui.interfaces.*;
 import pages.Page;
 
@@ -49,7 +47,7 @@ class MainMenuPresenter {
             JButton getSelectFileToStartButton = mainMenuView.getSelectFileToStartButton();
 
             new Thread(() -> {
-                IPDFParser pdfParser = new PDFParser();
+                PDFParser pdfParser = new PDFParser();
                 Set<Page> pages;
 
                 try {

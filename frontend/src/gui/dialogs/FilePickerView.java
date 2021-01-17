@@ -17,16 +17,18 @@ public class FilePickerView implements IDialog {
     private IFrame mainFrame;
     private int selectionMode;
     private Set<String> extensions;
+    private String title;
 
     /**
      * @param mainFrame main GUI frame
      */
-    public FilePickerView(IFrame mainFrame, DialogFactoryOptions.selectionMode selectionMode, Set<String> extensions) {
+    public FilePickerView(IFrame mainFrame, DialogFactoryOptions.selectionMode selectionMode, Set<String> extensions, String title) {
         ConstantsTranslator constantsTranslator = new ConstantsTranslator();
 
         this.mainFrame = mainFrame;
         this.selectionMode = constantsTranslator.translateFileSelectionMode(selectionMode);
         this.extensions = extensions;
+        this.title = title;
     }
 
     /**
@@ -39,6 +41,10 @@ public class FilePickerView implements IDialog {
         JFileChooser fileChooser = new JFileChooser();
 
         fileChooser.setFileSelectionMode(selectionMode);
+
+        if (title != null) {
+            fileChooser.setDialogTitle(title);
+        }
 
         if (extensions.size() > 0) {
             FileFilter filter = null;
