@@ -60,11 +60,13 @@ def import_pages(path):
 
 def parse(path):
     pages = import_pages(path)
+    head, tail = os.path.split(path)
+    fname = tail.split('.')[0]
 
     client = vision.ImageAnnotatorClient()
 
     for p in range(len(pages)):
-        content = paper_cv.detect_lines(pages[p].image, 'out/' + str(p), debug=False)
+        content = paper_cv.detect_lines(pages[p].image, 'out/' + fname + str(p), debug=False)
         image = vision.Image(content=content)
 
         response = client.document_text_detection(image=image)
@@ -85,7 +87,7 @@ def parse(path):
 
             pages[p].pdf_id = pid.num
             pages[p].page = page.num
-            pages[p].path = os.path.abspath('out/' + str(p) + '.jpg')
+            pages[p].path = os.path.abspath('out/' + fname + str(p) + '.jpg')
 
     print("\n".join([str(x) for x in pages]))
 
