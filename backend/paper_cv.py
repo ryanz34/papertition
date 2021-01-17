@@ -80,16 +80,7 @@ def vertical_detection(lines, a, vhthreshold, v_line_margin, max_h_line=False):
 
 def detect_lines(img, outname, debug=False, vhthreshold=0.1, v_line_margin=200):
 
-    lab = cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
-
-    l, a, b = cv2.split(lab)
-
-    clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
-    cl = clahe.apply(l)
-
-    limg = cv2.merge((cl, a, b))
-
-    gray = cv2.cvtColor(limg, cv2.COLOR_LAB2BGR)
+    gray = img
 
     hflipped = gray.shape[1] > gray.shape[0]
 
