@@ -83,7 +83,7 @@ class OrderPagesPresenter {
             row.add(rowLabel);
 
             if (rowNumber % 2 == 0) {
-                row.setBackground(new Color(200, 200, 200));
+                row.setBackground(new Color(220, 220, 220));
             }
 
             for (Page page : outputDocuments.get(documentID)) {
