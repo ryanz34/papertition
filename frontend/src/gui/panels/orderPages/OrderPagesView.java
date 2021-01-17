@@ -20,6 +20,8 @@ public class OrderPagesView implements IPanel {
         cancelButton.addActionListener((e) -> orderPagesPresenter.cancel());
         importButton.addActionListener((e) -> orderPagesPresenter.importMore());
         exportButton.addActionListener((e) -> orderPagesPresenter.export());
+
+        scrollPane.getVerticalScrollBar().setUnitIncrement(16);
     }
 
     JScrollPane getScrollPane() {
