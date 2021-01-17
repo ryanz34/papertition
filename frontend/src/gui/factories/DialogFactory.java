@@ -3,10 +3,12 @@ package gui.factories;
 import gui.dialogs.ConfirmBooleanDialogView;
 import gui.dialogs.FilePickerView;
 import gui.dialogs.MessageDialogView;
+import gui.dialogs.pageForm.PageFormView;
 import gui.enums.DialogFactoryOptions;
 import gui.interfaces.IDialog;
 import gui.interfaces.IDialogFactory;
 import gui.interfaces.IFrame;
+import pages.Page;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +48,8 @@ public class DialogFactory implements IDialogFactory {
     @Override
     public IDialog createDialog(DialogFactoryOptions.dialogNames name, Map<String, Object> arguments) {
         switch (name) {
+            case PAGE_FORM:
+                return new PageFormView(mainFrame, (Page) arguments.get("page"), (Set<Page>) arguments.get("pages"));
             case FILE_PICKER:
                 return new FilePickerView(mainFrame, (DialogFactoryOptions.selectionMode) arguments.get("selectionMode"), (Set<String>) arguments.get("extensions"), (String) arguments.get("title"));
             case MESSAGE:

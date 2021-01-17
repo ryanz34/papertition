@@ -7,7 +7,8 @@ public class DialogFactoryOptions {
     public enum dialogNames {
         MESSAGE,
         CONFIRM_BOOLEAN,
-        FILE_PICKER
+        FILE_PICKER,
+        PAGE_FORM
     }
 
     /**

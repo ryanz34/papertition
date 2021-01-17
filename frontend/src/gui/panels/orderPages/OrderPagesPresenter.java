@@ -14,6 +14,8 @@ import pages.Page;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.List;
 
@@ -76,7 +78,18 @@ class OrderPagesPresenter {
 
         int rowNumber = 0;
 
-        for (int documentID : outputDocuments.keySet()) {
+        List<Integer> sortedDocumentIDs = new ArrayList<>(outputDocuments.keySet());
+        sortedDocumentIDs.sort((a, b) -> {
+            if (a > b) {
+                return 1;
+            } else if (a < b) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+
+        for (int documentID : sortedDocumentIDs) {
             JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
             JLabel rowLabel = new JLabel("Document " + documentID);
 
@@ -87,7 +100,25 @@ class OrderPagesPresenter {
             }
 
             for (Page page : outputDocuments.get(documentID)) {
-                row.add(new JLabel(page.icon));
+                JLabel thumbnail = new JLabel(page.icon);
+
+                thumbnail.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+
+                        dialogFactory.createDialog(DialogFactoryOptions.dialogNames.PAGE_FORM, new HashMap<>() {
+                            {
+                                put("page", page);
+                                put("pages", pages);
+                            }
+                        }).run();
+
+                        updateView();
+                    }
+                });
+
+                row.add(thumbnail);
             }
 
             panel.add(row);
